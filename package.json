@@ -1,0 +1,19 @@
+{
+  "name": "nutri-bot-telegram",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "set-webhook": "ts-node scripts/set-webhook.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.54.0",
+    "@notionhq/client": "^2.2.15",
+    "dotenv": "^16.4.5",
+    "grammy": "^1.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
