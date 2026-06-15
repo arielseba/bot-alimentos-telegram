@@ -16,7 +16,7 @@ fetch(`https://api.telegram.org/bot${token}/setWebhook`, {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ url: webhookUrl }),
 })
-  .then((r) => r.json())
+  .then((r) => r.json() as Promise<{ ok: boolean; description?: string }>)
   .then((data) => {
     if (data.ok) {
       console.log(`Webhook registrado: ${webhookUrl}`);

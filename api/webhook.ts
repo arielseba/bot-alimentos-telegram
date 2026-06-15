@@ -58,8 +58,8 @@ async function parseFood(text: string): Promise<FoodEntry> {
   return { alimento: input.alimento, horario: input.horario ?? null };
 }
 
-async function saveToNotion(entry: FoodEntry): Promise<void> {
-  const today = new Date().toISOString().split("T")[0];
+async function saveToNotion(entry: FoodEntry, messageDate: number): Promise<void> {
+  const datetime = new Date(messageDate * 1000).toISOString();
 
   await notion.pages.create({
     parent: { database_id: DATABASE_ID },
@@ -71,7 +71,7 @@ async function saveToNotion(entry: FoodEntry): Promise<void> {
         Horario: { select: { name: entry.horario } },
       }),
       Fecha: {
-        date: { start: today },
+        date: { start: datetime },
       },
     },
   });
@@ -90,7 +90,7 @@ bot.on("message:text", async (ctx) => {
   try {
     await ctx.replyWithChatAction("typing");
     const entry = await parseFood(text);
-    await saveToNotion(entry);
+    await saveToNotion(entry, ctx.message.date);
 
     const horarioText = entry.horario ? ` (${entry.horario})` : "";
     await ctx.reply(`Registrado: ${entry.alimento}${horarioText} ✓`);
@@ -100,4 +100,4 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
-export default webhookCallback(bot, "std/http");
+export default webhookCallback(bot, "next-js");
